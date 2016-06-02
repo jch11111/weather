@@ -2,17 +2,9 @@ var weather = (function () {
 
     var init = function () {
         $(function () {
-
-            //get location info
             $.when(getLocation())
                 .then(getWeather)
                 .then(displayWeather);
-
-
-            //get weather based on location
-
-            //display weather
-
         })
     };
 
@@ -40,7 +32,10 @@ var weather = (function () {
     }
 
     function displayWeather(weatherData) {
-        $("#weather").text(weatherData.weather[0].description);
+        var weatherDescription = weatherData.weather[0].description;
+        weatherDescription += ", humidity: " + weatherData.main.humidity + "%";
+        weatherDescription += ", pressure: " + weatherData.main.pressure + " milibars";
+        $("#weather").text(weatherDescription);
     }
 
     return {
@@ -50,21 +45,3 @@ var weather = (function () {
 }());
 
 weather.init();
-
-
-//var options = {timeout: 5000};
-
-//function success(pos) {
-//    var crd = pos.coords;
-
-//    console.log('Your current position is:');
-//    console.log('Latitude : ' + crd.latitude);
-//    console.log('Longitude: ' + crd.longitude);
-//    console.log('More or less ' + crd.accuracy + ' meters.');
-//};
-
-//function error(err) {
-//    console.warn('ERROR(' + err.code + '): ' + err.message);
-//};
-
-//navigator.geolocation.getCurrentPosition(success, error, options);
