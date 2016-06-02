@@ -5,7 +5,8 @@ var weather = (function () {
 
             //get location info
             $.when(getLocation())
-                .then(getWeather);
+                .then(getWeather)
+                .then(displayWeather);
 
 
             //get weather based on location
@@ -28,8 +29,18 @@ var weather = (function () {
     }
 
     function getWeather(position) {
-        //api.openweathermap.org/data/2.5/weather?lat=45&lon=122&APPID=b7fc643f9caae838d15cc6cda9593a6d
-        alert(position.coords.latitude);
+        var deferred = $.Deferred();
+        $.getJSON("http://api.openweathermap.org/data/2.5/weather?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&APPID=b7fc643f9caae838d15cc6cda9593a6d", successfullyGotWeather);
+
+        function successfullyGotWeather(weatherData) {
+            deferred.resolve(weatherData);
+        }
+
+        return deferred;
+    }
+
+    function displayWeather(weatherData) {
+        $("#weather").text(weatherData.weather[0].description);
     }
 
     return {
