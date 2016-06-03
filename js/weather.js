@@ -1,7 +1,13 @@
 var weather = (function () {
 
+    var weatherDataCached;
+    var isCelciusCached = false;
+
     var init = function () {
         $(function () {
+
+            $("#btnToggleTemperature").click(toggleTemperature);
+
             $.when(getLocation())
                 .then(getWeather)
                 .then(displayWeather);
@@ -31,24 +37,45 @@ var weather = (function () {
         $.getJSON(apiURL, successfullyGotWeather);
 
         function successfullyGotWeather(weatherData) {
+            weatherDataCached = weatherData;
             deferred.resolve(weatherData);
         }
 
         return deferred;
     }
 
-    function displayWeather(weatherData) {
-        var weatherDescription = weatherData.weather[0].description;
-        weatherDescription += ", temperature: " + Math.round(weatherData.main.temp) + " degrees";
-        weatherDescription += ", wind: from " + weatherData.wind.deg + " degrees at " + Math.round(weatherData.wind.speed) + " knotts";
+    function displayWeather(weatherData, isCelcius) {
+        isCelcius = !!isCelcius 
+        var temperature = weatherData.main.temp;
+        if (isCelcius) {
+            temperature = (temperature - 32) * 5 / 9;
+        }
+        temperature = Math.round(temperature);
+        var weatherDescription = weatherData.name + " - " + weatherData.weather[0].description;
+        weatherDescription += ", temperature: " + temperature + ((isCelcius) ? "C" : "F");
+        weatherDescription += ", wind from " + weatherData.wind.deg + " degrees at " + Math.round(weatherData.wind.speed) + " knotts";
         weatherDescription += ", humidity: " + weatherData.main.humidity + "%";
         weatherDescription += ", pressure: " + weatherData.main.pressure + "";
         $("#weather").text(weatherDescription);
+
+        var imageUrl = 
+            "http://openweathermap.org/img/w/" + 
+            weatherData.weather[0].icon + 
+            ".png"
+
+        $("#imgWeatherIcon").attr("src", imageUrl);
+    }
+
+    function toggleTemperature() {
+        isCelciusCached = !isCelciusCached;
+        $("#btnToggleTemperature").text((isCelciusCached ? "Farenheit" : "Celcius"));
+        displayWeather(weatherDataCached, isCelciusCached);
     }
 
     return {
         init: init
     };
+
 
 }());
 

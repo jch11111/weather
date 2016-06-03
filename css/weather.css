@@ -1,50 +1,8 @@
-
-
-/*body {
-    background-size: cover;
-    background-attachment: fixed;
-    background-image: 
-        linear-gradient(
-                rgba(120, 80, 150, .75),
-                rgba(120, 80, 150, .75)
-        ), 
-        url("../img/tunnel.jpg");
-}
-
-#divQuote {
-    display: none;
-    color: white;
-    margin: 25% auto 0;
+div {
+    margin: 50px auto;
     text-align: center;
 }
 
-#divButton {
-    margin: 20px auto 0;
-    text-align: center;
+img {
+    width: 100px;
 }
-
-#divTweet {
-    margin: 20px auto 0;
-    text-align: center;
-}
-
-#divTweet a {
-    color: #fff;
-}
-
-button {
-    cursor: pointer;
-    border-radius: 50%;
-    width: 70px;
-    height: 70px;
-    border: 1px solid #888;
-    background-image:
-        linear-gradient(
-            rgba(120, 80, 150, .15),
-            rgba(120, 80, 150, .15)
-        );
-}
-
-button:focus {
-  outline: none;
-}*/
