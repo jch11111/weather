@@ -14,7 +14,7 @@ var weather = (function () {
         })
     };
 
-    function getLocation() {
+    function getLocationGeo() {
         var deferred = $.Deferred();
 
         function successfullyGotLocation(position) {
@@ -26,12 +26,24 @@ var weather = (function () {
         return deferred.promise();
     }
 
+    function getLocation() {
+        var deferred = $.Deferred();
+
+        function successfullyGotLocation(position) {
+            deferred.resolve(position);
+        }
+
+        $.getJSON("http://ip-api.com/json", successfullyGotLocation);
+
+        return deferred.promise();
+    }
+
     function getWeather(position) {
         var deferred = $.Deferred();
         var apiURL =
                 "http://api.openweathermap.org/data/2.5/weather" +
-                "?lat=" + position.coords.latitude +
-                "&lon=" + position.coords.longitude +
+                "?lat=" + position.lat +
+                "&lon=" + position.lon +
                 "&APPID=" + "b7fc643f9caae838d15cc6cda9593a6d" +
                 "&units=" + "imperial";
         $.getJSON(apiURL, successfullyGotWeather);
@@ -53,7 +65,7 @@ var weather = (function () {
         temperature = Math.round(temperature);
         var weatherDescription = weatherData.name + " - " + weatherData.weather[0].description;
         weatherDescription += ", temperature: " + temperature + ((isCelcius) ? "C" : "F");
-        weatherDescription += ", wind from " + weatherData.wind.deg + " degrees at " + Math.round(weatherData.wind.speed) + " knotts";
+        weatherDescription += ", wind from " + ((weatherData.wind.deg) ? weatherData.wind.deg + ' degrees' : 'variable') + " at " + Math.round(weatherData.wind.speed) + " knotts";
         weatherDescription += ", humidity: " + weatherData.main.humidity + "%";
         weatherDescription += ", pressure: " + weatherData.main.pressure + "";
         $("#weather").text(weatherDescription);
