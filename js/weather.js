@@ -11,11 +11,11 @@ var weather = (function () {
     function getLocation() {
         var deferred = $.Deferred();
 
-        function successfullyGotWeather(position) {
+        function successfullyGotLocation(position) {
             deferred.resolve(position);
         }
 
-        navigator.geolocation.getCurrentPosition(successfullyGotWeather);
+        navigator.geolocation.getCurrentPosition(successfullyGotLocation);
 
         return deferred.promise();
     }
