@@ -65,7 +65,7 @@ var weather = (function () {
         temperature = Math.round(temperature);
         var weatherDescription = weatherData.name + " - " + weatherData.weather[0].description;
         weatherDescription += ", temperature: " + temperature + ((isCelcius) ? "C" : "F");
-        weatherDescription += ", wind from " + ((weatherData.wind.deg) ? weatherData.wind.deg + ' degrees' : 'variable') + " at " + Math.round(weatherData.wind.speed) + " knotts";
+        weatherDescription += ", wind" + ((weatherData.wind.deg) ? ' from ' + weatherData.wind.deg + ' degrees' : ' variable') + " at " + Math.round(weatherData.wind.speed) + " mph";
         weatherDescription += ", humidity: " + weatherData.main.humidity + "%";
         weatherDescription += ", pressure: " + weatherData.main.pressure + "";
         $("#weather").text(weatherDescription);
